@@ -28,6 +28,8 @@ header {
     display: flex;
     align-items: center;
     gap: 10px;
+    text-decoration: none;
+    color: #333;
 }
 
 .logo-container img {
@@ -139,9 +141,102 @@ nav ul li a:hover {
     cursor: pointer;
     box-shadow: 0 10px 20px rgba(0, 114, 255, 0.3);
     transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
 }
 
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 15px 25px rgba(0, 114, 255, 0.4);
+}
+
+/* --- Footer (页脚) 样式 --- */
+
+footer {
+    width: 100%;
+    margin-top: 50px; /* 让页脚和上面的内容保持一点距离 */
+}
+
+/* 1. 上半部分：联系信息区域 */
+.footer-content {
+    background-color: #ffffff; /* 白色背景 */
+    padding: 40px 5%;          /* 上下留宽一点，左右保持对齐 */
+    color: #333;
+}
+
+.footer-content h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.track-link {
+    display: inline-block;
+    color: #333;
+    text-decoration: underline; /* 下划线，模仿截图样式 */
+    font-weight: 600;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;      /* 图标和文字的间距 */
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 600; /* 加粗一点，像截图一样 */
+}
+
+/* 2. 下半部分：灰色版权条 */
+.footer-bottom {
+    background-color: #f4f4f4; /* 浅灰色背景 */
+    padding: 25px 5%;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center; /* 垂直居中 */
+}
+
+.copyright-container {
+    display: flex;
+    align-items: center; /* 让 Logo 和文字在同一行垂直居中 */
+    gap: 10px;
+}
+
+.copyright-container img {
+    height: 20px; /* Logo 高度，跟文字差不多高 */
+    width: auto;
+    display: block;
+}
+
+.copyright-container span {
+    color: #555;
+    font-size: 14px;
+}
+
+/* --- About Us 页面专用样式 --- */
+
+/* 1. 让 Logo 和文字并排 */
+.brand-row {
+    display: flex;           /* 开启弹性布局 */
+    align-items: center;     /* 垂直居中对齐 */
+    justify-content: center; /* 水平居中对齐 */
+    gap: 20px;               /* Logo 和文字之间的距离 */
+    margin-bottom: 30px;     /* 和下方描述文字的距离 */
+}
+
+/* 2. 限制中间 Logo 的大小 */
+/* 现在的 Logo 太大了，我们需要把它变小一点，不然并排会很难看 */
+.brand-row img {
+    height: 80px;            /* 设置高度，您可以根据喜好改成 60px 或 100px */
+    width: auto;             /* 宽度自动适应 */
+    border-radius: 5px;      /* 可选：给 Logo 加一点圆角 */
+}
+
+/* 3. 调整标题样式（如果需要） */
+.brand-row h1 {
+    margin-bottom: 0;        /* 去掉标题自带的下边距，保证对齐 */
+    font-size: 36px;         /* 字体大小 */
+    color: #2c3e50;          /* 深蓝色 */
 }
