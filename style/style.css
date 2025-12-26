@@ -151,6 +151,7 @@ nav ul li a:hover {
     box-shadow: 0 15px 25px rgba(0, 114, 255, 0.4);
 }
 
+
 /* --- Footer (页脚) 样式 --- */
 
 footer {
@@ -215,6 +216,7 @@ footer {
     font-size: 14px;
 }
 
+
 /* --- About Us 页面专用样式 --- */
 
 /* 1. 让 Logo 和文字并排 */
@@ -239,4 +241,218 @@ footer {
     margin-bottom: 0;        /* 去掉标题自带的下边距，保证对齐 */
     font-size: 36px;         /* 字体大小 */
     color: #2c3e50;          /* 深蓝色 */
+}
+
+
+/* --- Shop Product 页面专用样式 --- */
+
+/* 1. 主容器：限制最大宽度，保证在大屏上好看 */
+.shop-container {
+    max-width: 1600px; /* 设置宽一点，因为要放6列 */
+    margin: 0 auto;    /* 居中 */
+    padding: 40px 20px;
+}
+
+/* 2. 顶部工具栏 (Flex布局：一左一右) */
+.shop-toolbar {
+    display: flex;
+    justify-content: space-between; /* 关键：让左右两部分分开 */
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #f8f9fa; /* 浅灰色背景，区分内容区 */
+    border-radius: 5px;
+    border: 1px solid #eee;
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.sort-dropdown {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    color: #555;
+}
+
+.result-count {
+    font-size: 14px;
+    color: #777;
+}
+
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px; /* 左边圆角 */
+    outline: none;
+    width: 200px; /* 搜索框宽度 */
+}
+
+.search-btn {
+    padding: 8px 15px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0; /* 右边圆角 */
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #1a252f;
+}
+
+/* 3. 产品网格 (Grid布局：核心部分) */
+.product-grid {
+    display: grid;
+    /* 强制一行 6 个，每个平分宽度 */
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 20px; /* 卡片之间的间距 */
+    margin-bottom: 50px;
+}
+
+/* 4. 产品卡片样式 */
+.product-card {
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* 悬停上浮效果 */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    padding: 20px;
+    background-color: #fff;
+    height: 180px; /* 固定图片区域高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.product-info {
+    padding: 15px;
+    background-color: #fafafa;
+    border-top: 1px solid #eee;
+    flex-grow: 1; /* 填满剩余空间 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-title {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    height: 40px; /* 限制标题高度，防止参差不齐 */
+    overflow: hidden;
+}
+
+.product-price {
+    font-size: 16px;
+    color: #e67e22; /* 橙色价格 */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    padding: 8px;
+    background-color: #fff;
+    border: 1px solid #2c3e50;
+    color: #2c3e50;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+/* 5. 底部页码 (居中) */
+.pagination-container {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    margin-top: 20px;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.page-link.active {
+    background-color: #2c3e50;
+    color: #fff;
+    border-color: #2c3e50;
+}
+
+.page-link:hover:not(.active) {
+    background-color: #eee;
+}
+
+.page-dots {
+    padding: 8px 10px;
+    color: #777;
+}
+
+/* 6. 响应式调整 (重要！) */
+/* 在手机或小屏幕上，一行放6个会看不清，这里做个自动调整 */
+@media (max-width: 1200px) {
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr); /* 中屏变4列 */
+    }
+}
+
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* 手机变2列 */
+    }
+    .shop-toolbar {
+        flex-direction: column; /* 手机上工具栏垂直排列 */
+        gap: 15px;
+    }
+    .search-input {
+        width: 100%; /* 搜索框填满 */
+    }
+    .toolbar-right {
+        width: 100%;
+    }
 }

@@ -22,25 +22,50 @@
         </nav>
     </header>
 
-    <section class="hero-section">
-        <div class="hero-overlay"></div>
+    <section class="shop-container">
         
+        <div class="shop-toolbar">
+            <div class="toolbar-left">
+                <select class="sort-dropdown">
+                    <option value="default">Default sorting</option>
+                    <option value="price-low">Sort by price: low to high</option>
+                    <option value="price-high">Sort by price: high to low</option>
+                    <option value="latest">Sort by latest</option>
+                </select>
+
+                <select class="sort-dropdown" id="category-filter" style="margin-left: 10px; margin-right: 10px;">
+                    <option value="all">All Categories</option>
+                    <option value="Valves">Valves</option>
+                    <option value="Cylinders">Cylinders</option>
+                    <option value="Accessories">Accessories</option>
+                </select>
+
+                <span class="result-count" id="result-count">Computing...</span>
+            </div>
+
+            <div class="toolbar-right">
+                <input type="text" class="search-input" placeholder="Search products...">
+                <button class="search-btn">🔍</button>
+            </div>
+        </div>
+        <section class="shop-container">
+        
+        <div class="product-grid">
+            </div>
+
+        <div class="pagination" id="pagination">
+       </div>  
+
     </section>
 
     <footer>
         <div class="footer-content">
             <h3>Contact Us</h3>
-            
             <div class="contact-info">
-                <p class="contact-item">
-                    <span>📞</span> 012-677 7731
-                </p>
-                <p class="contact-item">
-                    <span>✉️</span> rexgan.3a@gmail.com
-                </p>
+                <p class="contact-item"><span>📞</span> 012-677 7731</p>
+                <p class="contact-item"><span>✉️</span> rexgan.3a@gmail.com</p>
             </div>
         </div>
-
         <div class="footer-bottom">
             <div class="copyright-container">
                 <img src="https://i.imgur.com/DV8GVMI.jpeg" alt="3A Logo">
@@ -49,5 +74,8 @@
         </div>
     </footer>
 
+    <script src="scripts/shop-product-menu.js"></script>
+    
+    <script src="scripts/shop-product.js"></script>
 </body>
 </html>
