@@ -4,33 +4,34 @@ document.addEventListener("DOMContentLoaded", function() {
     // 1. 获取 HTML 元素
     // ==========================================
     const productGrid = document.querySelector('.product-grid');
-    const categoryFilter = document.getElementById('category-filter'); // 获取分类下拉菜单
+    const categoryFilter = document.getElementById('category-filter');
+    const searchInput = document.querySelector('.search-input'); // 【新增】获取搜索框
+    const searchBtn = document.querySelector('.search-btn');     // 【新增】获取搜索按钮
     const countLabel = document.getElementById('result-count');
     const paginationContainer = document.getElementById('pagination');
-    const itemsPerPage = 30; // 一页显示多少个
+    const itemsPerPage = 30; 
 
-    // 检查 productData 是否存在
+    // 检查数据是否存在
     if (typeof productData === 'undefined') {
         console.error("错误：找不到 productData。请确保 shop-product-menu.js 在 shop-product.js 之前加载。");
         return;
     }
 
-    // 全局变量，用于存储当前“正在显示”的数据（可能是全部，也可能是筛选后的）
-    let currentData = productData;
+    // 全局变量
+    let currentData = productData; // 存储当前筛选后的数据
     let currentPage = 1;
 
     // ==========================================
     // 2. 核心功能：渲染产品网格
     // ==========================================
     function renderGrid(data) {
-        // 清空现有的网格
         productGrid.innerHTML = '';
 
-        // 循环数据，生成 HTML 卡片
         data.forEach(item => {
             const card = document.createElement('div');
             card.className = 'product-card';
             
+            // 【修改】这里删掉了 <button>Add to cart</button>
             card.innerHTML = `
                 <div class="product-image">
                     <img src="${item.image}" alt="${item.title}">
@@ -39,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     <h3 class="product-title">${item.title}</h3>
                     <p class="product-category" style="font-size: 12px; color: #999; margin-bottom: 5px;">${item.category}</p>
                     <p class="product-price">${item.price}</p>
-                    <button class="add-to-cart-btn">Add to cart</button>
                 </div>
             `;
             
@@ -51,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // 3. 分页与显示逻辑
     // ==========================================
     function showPage(page) {
-        // 重新获取当前页面上所有的卡片（因为 renderGrid 可能刚更新过它们）
         const products = document.querySelectorAll('.product-card');
         const totalItems = products.length;
         const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -63,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const start = (page - 1) * itemsPerPage;
         const end = start + itemsPerPage;
 
-        // 控制每个卡片的显示/隐藏
         products.forEach((product, index) => {
             if (index >= start && index < end) {
                 product.style.display = 'flex';
@@ -80,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function() {
             if(countLabel) countLabel.textContent = `Showing ${start + 1}–${displayEnd} of ${totalItems} results`;
         }
 
-        // 更新分页按钮
         renderPagination(totalPages);
     }
 
@@ -118,29 +115,66 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // ==========================================
-    // 4. 初始化与事件监听
+    // 4. 事件监听 (Search & Filter)
     // ==========================================
 
-    // 监听分类下拉菜单的变化
+    // 【功能 A】监听分类变化
     if(categoryFilter) {
         categoryFilter.addEventListener('change', function(e) {
             const selectedCategory = e.target.value;
-
-            // 如果选的是 'all'，就显示全部；否则筛选出匹配的 category
-            if (selectedCategory === 'all') {
-                currentData = productData;
-            } else {
-                currentData = productData.filter(item => item.category === selectedCategory);
-            }
-
-            // 1. 重新渲染网格
-            renderGrid(currentData);
-            // 2. 重置回第一页并显示
-            showPage(1);
+            
+            // 筛选数据
+            filterData(selectedCategory, searchInput.value);
         });
     }
 
-    // 页面刚加载时：渲染全部数据 -> 显示第一页
+    // 【功能 B - 新增】监听搜索框输入 (实时搜索)
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value;
+            const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
+            
+            // 筛选数据
+            filterData(selectedCategory, searchTerm);
+        });
+    }
+
+    // 【功能 B - 新增】监听搜索按钮点击
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // 防止按钮提交表单刷新页面
+            const searchTerm = searchInput.value;
+            const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
+            
+            filterData(selectedCategory, searchTerm);
+        });
+    }
+
+    // 【辅助函数】统一处理筛选逻辑
+    // 这个函数会同时考虑 "分类" 和 "搜索词"
+    function filterData(category, term) {
+        const lowerTerm = term.toLowerCase().trim();
+
+        // 1. 先过滤分类
+        let filtered = productData;
+        if (category !== 'all') {
+            filtered = filtered.filter(item => item.category === category);
+        }
+
+        // 2. 再过滤搜索词 (模糊匹配 Title)
+        if (lowerTerm !== '') {
+            filtered = filtered.filter(item => 
+                item.title.toLowerCase().includes(lowerTerm)
+            );
+        }
+
+        // 更新全局数据并重新渲染
+        currentData = filtered;
+        renderGrid(currentData);
+        showPage(1); // 搜索后重置回第1页
+    }
+
+    // 初始化
     renderGrid(productData);
     showPage(1);
 });

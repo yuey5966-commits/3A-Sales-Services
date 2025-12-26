@@ -7,7 +7,7 @@ const productData = [
         image: "https://scontent.fmkz1-2.fna.fbcdn.net/v/t39.30808-6/603842776_1659528885396649_8290344442493012125_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=PfLF5GrQbc0Q7kNvwHf5quN&_nc_oc=AdmevyaMUWx4TcxkWgyiKPPgvRxkJCVQfzqjQx241GDOSLGP20CpEu6Yj9Kf5eyFRM1onfwKGKkArMnbDq1bwx5C&_nc_zt=23&_nc_ht=scontent.fmkz1-2.fna&_nc_gid=L4J_u3rgam6jbbs6fXPWpQ&oh=00_AfnhUekeEnuxRaRZFZZ6MMvK5Cs5hQ7G15A3523DqEYdmw&oe=695470CB"
     },
     {
-        title: "Resistance Feeder Switch",
+        title: "Resistance Feeder SWITCH",
         category: "Valves",
         price: "RM 45.00",
         image: "https://scontent.fmkz1-2.fna.fbcdn.net/v/t39.30808-6/598716436_1653504439332427_8970661102326389111_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=s6ZIEMKqQ_QQ7kNvwG5wf_g&_nc_oc=AdlXQ2Js87_oINE84dcoAuIn0E7Ctr4Eo3IND9UfwPbmlv5L_y_-afTHpygcFzJjMKt-2XN4wKOuNoJrv8yKmhuM&_nc_zt=23&_nc_ht=scontent.fmkz1-2.fna&_nc_gid=L4J_u3rgam6jbbs6fXPWpQ&oh=00_AfkTxSd75q9yfFufkvM8867L6me2o1pmvsLXBmOX27EjiA&oe=695466F6"
