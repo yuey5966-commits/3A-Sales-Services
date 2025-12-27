@@ -456,3 +456,291 @@ footer {
         width: 100%;
     }
 }
+
+
+/* --- Add to Cart 弹窗样式 --- */
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px; /* 限制弹窗最大宽度 */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-align: center;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.modal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+/* 数量加减器 */
+.quantity-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.quantity-control button {
+    background: #f1f1f1;
+    border: none;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #333;
+}
+
+.quantity-control button:hover {
+    background: #e0e0e0;
+}
+
+.quantity-control input {
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    font-weight: bold;
+}
+
+/* 底部按钮 */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    gap: 15px;
+}
+
+#cancel-btn {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #666;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#cancel-btn:hover {
+    background: #f9f9f9;
+}
+
+#confirm-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: #2c3e50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#confirm-btn:hover {
+    background: #1a252f;
+}
+
+/* 当显示时，使用 flex 布局 */
+.modal.show {
+    display: flex;
+}
+
+
+/* --- 添加成功提示框 (Toast) 样式 --- */
+#toast-notification {
+    visibility: hidden; /* 默认不可见 */
+    min-width: 250px;   /* 最小宽度 */
+    margin-left: -125px; /* 配合 left:50% 实现水平居中 */
+    background-color: #4CAF50; /* 成功时的绿色背景 */
+    color: #fff;        /* 白色文字 */
+    text-align: center; /* 文字居中 */
+    border-radius: 4px; /* 圆角 */
+    padding: 16px;      /* 内边距 */
+    position: fixed;    /* 固定定位 */
+    z-index: 1001;      /* 保证在最上层 (比弹窗层级还要高) */
+    left: 50%;          /* 水平居中 */
+    bottom: 30px;       /* 距离底部 30px */
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* 阴影 */
+    opacity: 0;         /* 默认透明度为 0 */
+    transition: opacity 0.5s, visibility 0.5s; /* 添加过渡动画 */
+}
+
+/* 当添加了 'show' 类名时，显示出来 */
+#toast-notification.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/* --- 购物车页面样式 (Cart Page) --- */
+
+.cart-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    min-height: 500px;
+}
+
+.page-title {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    text-align: center;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.cart-table th {
+    background-color: #f8f9fa;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 2px solid #eee;
+}
+
+.cart-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.product-col {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.product-col img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* 购物车里的数量加减 */
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.qty-box button {
+    width: 25px;
+    height: 25px;
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.qty-box span {
+    width: 30px;
+    text-align: center;
+}
+
+.remove-btn {
+    background: transparent;
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.remove-btn:hover {
+    background: #e74c3c;
+    color: #fff;
+}
+
+/* 购物车总计区域 */
+.cart-summary {
+    width: 300px;
+    margin-left: auto; /* 靠右 */
+    margin-top: 30px;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #eee;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.cart-summary h3 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.checkout-btn {
+    width: 100%;
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.checkout-btn:hover {
+    background: #1a252f;
+}
+
+/* 手机端适配 */
+@media (max-width: 768px) {
+    .cart-table th:nth-child(2), /* 隐藏单价 */
+    .cart-table td:nth-child(2) {
+        display: none;
+    }
+    
+    .product-col img {
+        width: 40px;
+        height: 40px;
+    }
+}

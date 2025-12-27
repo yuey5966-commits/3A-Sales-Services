@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-EN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - 3A Sales & Services</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-container">
+            <img src="https://i.imgur.com/DV8GVMI.jpeg" alt="Logo">
+            <span class="logo-text">3A SALES & SERVICES</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="shop-product.html">SHOP PRODUCT</a></li>
+                <li><a href="cart.html" class="active">CART</a></li> 
+                <li><a href="about-us.html">ABOUT US</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="cart-section">
+        <h1 class="page-title">Cart</h1>
+        
+        <div class="cart-container">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    </tbody>
+            </table>
+            
+            <div id="empty-cart-msg" style="display: none; text-align: center; padding: 50px;">
+                <p>Your cart is currently empty.</p>
+                <a href="shop-product.html" class="btn" style="margin-top: 20px;">Return to Shop</a>
+            </div>
+        </div>
+
+        <div class="cart-summary" id="cart-summary">
+            <h3>Cart Totals</h3>
+            <div class="summary-row">
+                <span>Total</span>
+                <span id="cart-grand-total">RM 0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="alert('Proceed to checkout functionality coming soon!')">Proceed to Checkout</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h3>Contact Us</h3>
+            <div class="contact-info">
+                <p class="contact-item"><span>📞</span> 012-677 7731</p>
+                <p class="contact-item"><span>✉️</span> rexgan.3a@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="copyright-container">
+                <img src="https://i.imgur.com/DV8GVMI.jpeg" alt="3A Logo">
+                <span>© 2025 3A Sales & Services</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/cart.js"></script>
+
+</body>
+</html>

@@ -17,6 +17,7 @@
             <ul>
                 <li><a href="index.html">HOME</a></li>
                 <li><a href="shop-product.html" class="active">SHOP PRODUCT</a></li>
+                <li><a href="cart.html">CART</a></li> 
                 <li><a href="about-us.html">ABOUT US</a></li>
             </ul>
         </nav>
@@ -76,5 +77,43 @@
     <script src="scripts/shop-product-menu.js"></script>
     
     <script src="scripts/shop-product.js"></script>
+    
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-product-title">Product Name</h2>
+            
+            <div class="modal-body">
+                <div class="modal-row">
+                    <span>Unit Price:</span>
+                    <span id="modal-unit-price" style="font-weight: bold;">RM 0.00</span>
+                </div>
+
+                <div class="modal-row quantity-row">
+                    <span>Quantity:</span>
+                    <div class="quantity-control">
+                        <button id="qty-minus">-</button>
+                        <input type="text" id="qty-input" value="1" readonly>
+                        <button id="qty-plus">+</button>
+                    </div>
+                </div>
+
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+
+                <div class="modal-row" style="font-size: 18px;">
+                    <span>Total:</span>
+                    <span id="modal-total-price" style="color: #e67e22; font-weight: bold;">RM 0.00</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="cancel-btn">Cancel Order</button>
+                <button id="confirm-btn">Confirm Order</button>
+            </div>
+        </div>
+    </div>
+    <div id="toast-notification">
+        ✅ Item successfully added to cart!
+    </div>
+
 </body>
 </html>
