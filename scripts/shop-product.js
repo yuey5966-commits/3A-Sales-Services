@@ -5,20 +5,21 @@ document.addEventListener("DOMContentLoaded", function() {
     // ==========================================
     const productGrid = document.querySelector('.product-grid');
     const categoryFilter = document.getElementById('category-filter');
-    const searchInput = document.querySelector('.search-input'); // 【新增】获取搜索框
-    const searchBtn = document.querySelector('.search-btn');     // 【新增】获取搜索按钮
+    const sortDropdown = document.querySelector('.sort-dropdown'); 
+    const searchInput = document.querySelector('.search-input');
+    const searchBtn = document.querySelector('.search-btn');
     const countLabel = document.getElementById('result-count');
     const paginationContainer = document.getElementById('pagination');
     const itemsPerPage = 30; 
 
-    // 检查数据是否存在
+    // 检查数据
     if (typeof productData === 'undefined') {
-        console.error("错误：找不到 productData。请确保 shop-product-menu.js 在 shop-product.js 之前加载。");
+        console.error("错误：找不到 productData。");
         return;
     }
 
     // 全局变量
-    let currentData = productData; // 存储当前筛选后的数据
+    let currentData = [...productData]; 
     let currentPage = 1;
 
     // ==========================================
@@ -31,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const card = document.createElement('div');
             card.className = 'product-card';
             
-            // 【修改】这里删掉了 <button>Add to cart</button>
             card.innerHTML = `
                 <div class="product-image">
                     <img src="${item.image}" alt="${item.title}">
@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <h3 class="product-title">${item.title}</h3>
                     <p class="product-category" style="font-size: 12px; color: #999; margin-bottom: 5px;">${item.category}</p>
                     <p class="product-price">${item.price}</p>
+                    <button class="add-to-cart-btn">Add to cart</button>
                 </div>
             `;
             
@@ -48,7 +49,59 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // ==========================================
-    // 3. 分页与显示逻辑
+    // 3. 辅助功能：处理价格排序
+    // ==========================================
+    function parsePrice(priceStr) {
+        if (!priceStr) return 0;
+        return parseFloat(priceStr.replace(/[^0-9.]/g, ''));
+    }
+
+    // ==========================================
+    // 4. 总控逻辑：筛选 + 搜索 + 排序
+    // ==========================================
+    function updateDisplay() {
+        // 1. 获取当前所有筛选条件的值
+        const category = categoryFilter ? categoryFilter.value : 'all';
+        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const sortValue = sortDropdown ? sortDropdown.value : 'default'; // 默认值设为 A-Z
+
+        // 2. 第一步：筛选 (Category & Search)
+        let filtered = productData.filter(item => {
+            const matchCategory = (category === 'all') || (item.category === category);
+            const matchSearch = (searchTerm === '') || item.title.toLowerCase().includes(searchTerm);
+            return matchCategory && matchSearch;
+        });
+
+        // 3. 第二步：排序 (Sort)
+        let sorted = [...filtered]; 
+
+        if (sortValue === 'price-low') {
+            // 价格：低 -> 高
+            sorted.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
+        } else if (sortValue === 'price-high') {
+            // 价格：高 -> 低
+            sorted.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
+        } else if (sortValue === 'latest') {
+            // 最新：倒序
+            sorted.reverse();
+        } else {
+            // 【默认逻辑修改】
+            // 这里现在处理 "alphabetical" 以及所有其他情况
+            // 执行 A -> Z 排序 (开启 numeric: true 以支持数字优先)
+            sorted.sort((a, b) => a.title.localeCompare(b.title, 'en', { numeric: true }));
+        }
+
+        // 4. 更新数据并重置页码
+        currentData = sorted;
+        currentPage = 1; 
+        
+        // 5. 渲染页面
+        renderGrid(currentData); 
+        showPage(1);
+    }
+
+    // ==========================================
+    // 5. 分页显示逻辑
     // ==========================================
     function showPage(page) {
         const products = document.querySelectorAll('.product-card');
@@ -115,66 +168,28 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // ==========================================
-    // 4. 事件监听 (Search & Filter)
+    // 6. 事件监听
     // ==========================================
 
-    // 【功能 A】监听分类变化
     if(categoryFilter) {
-        categoryFilter.addEventListener('change', function(e) {
-            const selectedCategory = e.target.value;
-            
-            // 筛选数据
-            filterData(selectedCategory, searchInput.value);
-        });
+        categoryFilter.addEventListener('change', updateDisplay);
     }
 
-    // 【功能 B - 新增】监听搜索框输入 (实时搜索)
+    if(sortDropdown) {
+        sortDropdown.addEventListener('change', updateDisplay);
+    }
+
     if (searchInput) {
-        searchInput.addEventListener('input', function(e) {
-            const searchTerm = e.target.value;
-            const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
-            
-            // 筛选数据
-            filterData(selectedCategory, searchTerm);
-        });
+        searchInput.addEventListener('input', updateDisplay);
     }
 
-    // 【功能 B - 新增】监听搜索按钮点击
     if (searchBtn) {
         searchBtn.addEventListener('click', function(e) {
-            e.preventDefault(); // 防止按钮提交表单刷新页面
-            const searchTerm = searchInput.value;
-            const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
-            
-            filterData(selectedCategory, searchTerm);
+            e.preventDefault();
+            updateDisplay();
         });
     }
 
-    // 【辅助函数】统一处理筛选逻辑
-    // 这个函数会同时考虑 "分类" 和 "搜索词"
-    function filterData(category, term) {
-        const lowerTerm = term.toLowerCase().trim();
-
-        // 1. 先过滤分类
-        let filtered = productData;
-        if (category !== 'all') {
-            filtered = filtered.filter(item => item.category === category);
-        }
-
-        // 2. 再过滤搜索词 (模糊匹配 Title)
-        if (lowerTerm !== '') {
-            filtered = filtered.filter(item => 
-                item.title.toLowerCase().includes(lowerTerm)
-            );
-        }
-
-        // 更新全局数据并重新渲染
-        currentData = filtered;
-        renderGrid(currentData);
-        showPage(1); // 搜索后重置回第1页
-    }
-
-    // 初始化
-    renderGrid(productData);
-    showPage(1);
+    // 初始化页面
+    updateDisplay();
 });
