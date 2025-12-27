@@ -6,6 +6,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const cartSummary = document.getElementById('cart-summary');
     const grandTotalEl = document.getElementById('cart-grand-total');
 
+    // --- 新增：获取删除弹窗相关的元素 ---
+    const removeModal = document.getElementById('remove-modal');
+    const cancelRemoveBtn = document.getElementById('cancel-remove-btn');
+    const confirmRemoveBtn = document.getElementById('confirm-remove-btn');
+
+    // 用来暂存“当前准备删除”的商品索引
+    let itemToDeleteIndex = null;
+
     // 1. 从 LocalStorage 读取数据
     let cart = JSON.parse(localStorage.getItem('myCart')) || [];
 
@@ -15,14 +23,12 @@ document.addEventListener("DOMContentLoaded", function() {
         let grandTotal = 0;
 
         if (cart.length === 0) {
-            // 如果购物车是空的
             cartTable.style.display = 'none';
             cartSummary.style.display = 'none';
             emptyCartMsg.style.display = 'block';
             return;
         }
 
-        // 如果有商品
         cartTable.style.display = 'table';
         cartSummary.style.display = 'block';
         emptyCartMsg.style.display = 'none';
@@ -56,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
         grandTotalEl.textContent = "RM " + grandTotal.toFixed(2);
     }
 
-    // 3. 全局函数：更新数量 (挂载到 window 对象，方便 HTML onclick 调用)
+    // 3. 全局函数：更新数量
     window.updateQty = function(index, change) {
         if (cart[index].quantity + change > 0) {
             cart[index].quantity += change;
@@ -64,15 +70,45 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-    // 4. 全局函数：删除商品
+    // 4. 【修改】全局函数：点击删除按钮 -> 打开弹窗
     window.removeItem = function(index) {
-        if(confirm("Are you sure you want to remove this item?")) {
-            cart.splice(index, 1); // 从数组中删除
-            saveAndRender();
-        }
+        // 记下要删除第几个
+        itemToDeleteIndex = index;
+        // 显示弹窗
+        removeModal.classList.add('show');
     };
 
-    // 5. 保存数据并重新渲染
+    // 5. 【新增】监听弹窗里的按钮
+    
+    // 点击 "Cancel" -> 关闭弹窗
+    if (cancelRemoveBtn) {
+        cancelRemoveBtn.addEventListener('click', function() {
+            removeModal.classList.remove('show');
+            itemToDeleteIndex = null; // 清空记录
+        });
+    }
+
+    // 点击 "Remove" -> 真正执行删除
+    if (confirmRemoveBtn) {
+        confirmRemoveBtn.addEventListener('click', function() {
+            if (itemToDeleteIndex !== null) {
+                cart.splice(itemToDeleteIndex, 1); // 删除数据
+                saveAndRender(); // 保存并刷新页面
+                removeModal.classList.remove('show'); // 关闭弹窗
+                itemToDeleteIndex = null; // 清空记录
+            }
+        });
+    }
+
+    // 点击弹窗外部 -> 关闭弹窗
+    window.addEventListener('click', function(e) {
+        if (e.target === removeModal) {
+            removeModal.classList.remove('show');
+            itemToDeleteIndex = null;
+        }
+    });
+
+    // 6. 保存数据并重新渲染
     function saveAndRender() {
         localStorage.setItem('myCart', JSON.stringify(cart));
         renderCart();
